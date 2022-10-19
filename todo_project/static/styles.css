@@ -1,0 +1,26 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.banner {
+  background-color: blueviolet;
+  color: white;
+}
+
+.scroll {
+  margin: 10px 0;
+  height: 595px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+}

@@ -1,0 +1,113 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container-fluid">
+  <div class="row text-center">
+    <div class="col-12 p-4 bg-success text-white">
+      <h2 class="fw-bold p-1 fs-1">Todos</h2>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <h6 class="fw-semibold p-2">Add Task</h6>
+      <div class="card shadow p-3 my-2 mx-3">
+        <form action="" method="post" class="">
+          {% csrf_token %}
+          <input
+            type="text"
+            name="task"
+            placeholder="Task name"
+            class="form-control my-2"
+          />
+          <input
+            type="number"
+            name="priority"
+            placeholder="Priority"
+            class="form-control my-2"
+          />
+          <input type="date" name="date" class="form-control my-1" />
+          <button type="submit" class="btn btn-success my-2 form-control">
+            Add Task
+          </button>
+        </form>
+      </div>
+      <h6 class="fw-semibold">Completed Tasks</h6>
+      <div class="px-3 completed">
+        {% for i in tasks reversed %} {% if i.completed is True %}
+        <div class="card shadow my-1">
+          <div class="card-body fw-bold">
+            <h4 class="fw-bold">Completed</h4>
+            <h5 class="fw-bold">{{i.task}}</h5>
+            <a href="{% url 'delete' i.id %}" class="btn btn-success px-5"
+              >Delete</a
+            >
+          </div>
+        </div>
+        {% endif %} {% endfor %}
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <h6 class="p-2 fw-semibold">Task to be completed</h6>
+      <div class="scroll">
+        {% for i in tasks %} {% if i.completed is False %}
+        <div class="card shadow mx-2 my-1">
+          <div class="card-body fw-bold">
+            <h4 class="fw-bold">{{i.task}}</h4>
+            <h4 class="fw-bold">{{i.priority}}</h4>
+            <p>{{i.date}}</p>
+            <div>
+              <a
+                class="btn btn-danger mx-1"
+                data-bs-toggle="modal"
+                data-bs-target="#deleteTaskModel"
+              >
+                Done
+              </a>
+              <a class="btn btn-success mx-1" href="{% url 'update' i.id %}">
+                Update
+              </a>
+            </div>
+          </div>
+        </div>
+        <!-- Modal -->
+        <div
+          class="modal fade"
+          id="deleteTaskModel"
+          tabindex="-1"
+          aria-labelledby="deleteTaskModel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title fw-bold fs-4" id="deleteTaskModel">
+                  Mark as Done !
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body fs-6 fw-semibold">
+                <p>Are You sure this task is completed ?</p>
+              </div>
+              <div class="modal-footer">
+                <a
+                  href="{% url 'task-done' i.id %}"
+                  class="btn btn-primary px-5 mx-4"
+                  >Yes</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endif %} {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
